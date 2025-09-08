@@ -1,0 +1,68 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Hackathon Inauguration Design System */
+
+@layer base {
+  :root {
+    /* Hackathon Theme Colors */
+    --background: 220 25% 5%;
+    --foreground: 0 0% 95%;
+    
+    /* Ribbon Colors */
+    --ribbon-red: 0 85% 55%;
+    --ribbon-dark: 0 75% 45%;
+    
+    /* Golden Text Effects */
+    --gold-primary: 45 90% 65%;
+    --gold-secondary: 35 85% 55%;
+    --gold-accent: 55 95% 75%;
+    
+    /* Space Effects */
+    --space-blue: 230 85% 15%;
+    --space-purple: 270 75% 25%;
+    --star-white: 0 0% 95%;
+    
+    /* Glow Effects */
+    --glow-primary: 45 90% 65%;
+    --glow-secondary: 0 85% 55%;
+    
+    --primary: 45 90% 65%;
+    --primary-foreground: 220 25% 5%;
+    
+    --secondary: 0 85% 55%;
+    --secondary-foreground: 0 0% 95%;
+    
+    --muted: 220 15% 15%;
+    --muted-foreground: 0 0% 65%;
+    
+    --accent: 270 75% 45%;
+    --accent-foreground: 0 0% 95%;
+    
+    --destructive: 0 85% 55%;
+    --destructive-foreground: 0 0% 95%;
+    
+    --border: 220 15% 20%;
+    --input: 220 15% 20%;
+    --ring: 45 90% 65%;
+    
+    --radius: 0.75rem;
+  }
+}
+
+@layer utilities {
+  .bg-gradient-radial {
+    background: radial-gradient(circle, var(--tw-gradient-stops));
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+}
