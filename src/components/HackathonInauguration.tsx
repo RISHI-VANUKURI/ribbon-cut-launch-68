@@ -181,7 +181,7 @@ const HackathonInauguration: React.FC = () => {
         {[...Array(100)].map((_, i) => (
           <div
             key={i}
-            className="absolute w-1 h-1 bg-star rounded-full opacity-80"
+            className="absolute w-1 h-1 bg-star-white rounded-full opacity-80"
             style={{
               left: `${Math.random() * 100}%`,
               top: `${Math.random() * 100}%`,
@@ -204,9 +204,7 @@ const HackathonInauguration: React.FC = () => {
       >
         {/* Left part of ribbon */}
         <div 
-          className={`h-full bg-gradient-to-r from-ribbon to-ribbon-dark border-2 border-ribbon-dark shadow-2xl ${
-            ribbonCut ? 'animate-ribbon-cut-left' : ''
-          }`}
+          className={`h-full ribbon ${ribbonCut ? 'cut-left' : ''}`}
           style={{ 
             flex: 1,
             clipPath: 'polygon(0 0, 90% 0, 85% 100%, 0 100%)'
@@ -226,9 +224,7 @@ const HackathonInauguration: React.FC = () => {
         
         {/* Right part of ribbon */}
         <div 
-          className={`h-full bg-gradient-to-r from-ribbon to-ribbon-dark border-2 border-ribbon-dark shadow-2xl ${
-            ribbonCut ? 'animate-ribbon-cut-right' : ''
-          }`}
+          className={`h-full ribbon ${ribbonCut ? 'cut-right' : ''}`}
           style={{ 
             flex: 1,
             clipPath: 'polygon(10% 0, 100% 0, 100% 100%, 15% 100%)'
@@ -261,9 +257,9 @@ const HackathonInauguration: React.FC = () => {
 
       {/* Welcome Text */}
       {showWelcomeText && (
-        <div className="absolute inset-0 flex items-center justify-center p-4">
-          <div className={`text-center transition-all duration-1000 w-full ${showTextSplit ? 'animate-text-split' : ''}`}>
-            <h1 className="text-6xl sm:text-7xl md:text-8xl lg:text-9xl xl:text-[12rem] font-black animate-golden-glow relative overflow-hidden leading-tight drop-shadow-2xl">
+        <div className="welcome-container">
+          <div className={`welcome-text-wrapper ${showTextSplit ? 'splitting' : ''}`}>
+            <h1 className="welcome-text">
               <div className="relative inline-block w-full">
                 {['W', 'E', 'L', 'C', 'O', 'M', 'E'].map((letter, i) => {
                   const colors = ['text-gold-primary', 'text-gold-accent', 'text-gold-secondary'];
@@ -271,7 +267,7 @@ const HackathonInauguration: React.FC = () => {
                   return (
                     <span
                       key={i}
-                      className={`inline-block animate-letter-scatter ${colorClass} ${showTextSplit && i < 4 ? 'animate-letter-split-left' : showTextSplit ? 'animate-letter-split-right' : ''}`}
+                      className={`welcome-letter ${colorClass} ${showTextSplit && i < 4 ? 'split-left' : showTextSplit ? 'split-right' : ''}`}
                       style={{
                         animationDelay: `${i * 0.08}s`,
                         '--random-x': `${(Math.random() - 0.5) * 400}px`,
@@ -292,7 +288,7 @@ const HackathonInauguration: React.FC = () => {
                   return (
                     <span
                       key={i}
-                      className={`inline-block animate-letter-scatter mr-4 ${colorClass} ${showTextSplit ? 'animate-letter-split-center' : ''}`}
+                      className={`welcome-letter mr-4 ${colorClass} ${showTextSplit ? 'split-center' : ''}`}
                       style={{
                         animationDelay: `${(i + 7) * 0.08}s`,
                         '--random-x': `${(Math.random() - 0.5) * 400}px`,
@@ -313,7 +309,7 @@ const HackathonInauguration: React.FC = () => {
                   return (
                     <span
                       key={i}
-                      className={`inline-block animate-letter-scatter ${colorClass} ${showTextSplit && i < 4 ? 'animate-letter-split-left' : showTextSplit ? 'animate-letter-split-right' : ''}`}
+                      className={`welcome-letter ${colorClass} ${showTextSplit && i < 4 ? 'split-left' : showTextSplit ? 'split-right' : ''}`}
                       style={{
                         animationDelay: `${(i + 9) * 0.08}s`,
                         '--random-x': `${(Math.random() - 0.5) * 400}px`,
@@ -329,14 +325,14 @@ const HackathonInauguration: React.FC = () => {
               </div>
               
               {/* Golden shine sweep effect */}
-              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-gold-accent to-transparent opacity-30 animate-shine-sweep" />
+              <div className="shine-effect" />
               
               {/* Particle burst effect */}
               <div className="absolute inset-0 pointer-events-none">
                 {[...Array(30)].map((_, i) => (
                   <div
                     key={i}
-                    className="absolute w-2 h-2 bg-gold-accent rounded-full animate-particle-burst opacity-70"
+                    className="particle-effect"
                     style={{
                       left: '50%',
                       top: '50%',
@@ -368,7 +364,7 @@ const HackathonInauguration: React.FC = () => {
       {/* Instructions */}
       {!ribbonCut && (
         <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2 text-center">
-          <p className="text-star text-lg md:text-xl mt-2 opacity-90 animate-pulse">
+          <p className="text-star-white text-lg md:text-xl mt-2 opacity-90 animate-pulse">
             Welcome to the HACKVIBE Inauguration
           </p>
         </div>

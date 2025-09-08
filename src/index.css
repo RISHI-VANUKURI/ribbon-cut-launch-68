@@ -66,3 +66,153 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Welcome Text Styles - Customize these! */
+.welcome-text {
+  @apply text-6xl sm:text-7xl md:text-8xl lg:text-9xl xl:text-[12rem] font-black relative overflow-hidden leading-tight drop-shadow-2xl;
+  animation: golden-glow 3s ease-in-out infinite alternate;
+}
+
+.welcome-letter {
+  @apply inline-block;
+  animation: letter-scatter 0.6s ease-out forwards;
+}
+
+.welcome-letter.split-left {
+  animation: letter-split-left 0.8s ease-in forwards;
+}
+
+.welcome-letter.split-right {
+  animation: letter-split-right 0.8s ease-in forwards;
+}
+
+.welcome-letter.split-center {
+  animation: letter-split-center 0.8s ease-in forwards;
+}
+
+.welcome-container {
+  @apply absolute inset-0 flex items-center justify-center p-4;
+}
+
+.welcome-text-wrapper {
+  @apply text-center transition-all duration-1000 w-full;
+}
+
+.welcome-text-wrapper.splitting {
+  animation: text-split 0.1s ease-in forwards;
+}
+
+.shine-effect {
+  @apply absolute inset-0 bg-gradient-to-r from-transparent via-gold-accent to-transparent opacity-30;
+  animation: shine-sweep 2s ease-in-out infinite;
+}
+
+.particle-effect {
+  @apply absolute w-2 h-2 bg-gold-accent rounded-full opacity-70;
+  animation: particle-burst 2s ease-out infinite;
+}
+
+/* Keyframes for animations */
+@keyframes golden-glow {
+  0% { 
+    text-shadow: 0 0 20px hsl(var(--gold-primary)), 0 0 40px hsl(var(--gold-accent)), 0 0 60px hsl(var(--gold-secondary)); 
+  }
+  100% { 
+    text-shadow: 0 0 30px hsl(var(--gold-accent)), 0 0 60px hsl(var(--gold-primary)), 0 0 90px hsl(var(--gold-secondary)); 
+  }
+}
+
+@keyframes letter-scatter {
+  0% { 
+    transform: translateY(var(--bounce-height)) scale(0.5) rotate(0deg);
+    opacity: 0; 
+  }
+  50% { 
+    transform: translateY(0) scale(1.1) rotate(5deg);
+    opacity: 1; 
+  }
+  100% { 
+    transform: translateY(0) scale(1) rotate(0deg);
+    opacity: 1; 
+  }
+}
+
+@keyframes letter-split-left {
+  0% { transform: translateX(0) translateY(0) rotate(0deg); opacity: 1; }
+  100% { 
+    transform: translateX(var(--random-x)) translateY(var(--random-y)) rotate(var(--random-rot)); 
+    opacity: 0; 
+  }
+}
+
+@keyframes letter-split-right {
+  0% { transform: translateX(0) translateY(0) rotate(0deg); opacity: 1; }
+  100% { 
+    transform: translateX(var(--random-x)) translateY(var(--random-y)) rotate(var(--random-rot)); 
+    opacity: 0; 
+  }
+}
+
+@keyframes letter-split-center {
+  0% { transform: translateX(0) translateY(0) rotate(0deg); opacity: 1; }
+  100% { 
+    transform: translateX(var(--random-x)) translateY(var(--random-y)) rotate(var(--random-rot)); 
+    opacity: 0; 
+  }
+}
+
+@keyframes text-split {
+  0% { transform: scale(1); opacity: 1; }
+  100% { transform: scale(1.1); opacity: 0.9; }
+}
+
+@keyframes shine-sweep {
+  0% { transform: translateX(-100%); opacity: 0; }
+  50% { opacity: 1; }
+  100% { transform: translateX(100%); opacity: 0; }
+}
+
+@keyframes particle-burst {
+  0% { 
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 1; 
+  }
+  100% { 
+    transform: translate(calc(-50% + var(--burst-x)), calc(-50% + var(--burst-y))) scale(1);
+    opacity: 0; 
+  }
+}
+
+/* Ribbon animations */
+@keyframes ribbon-cut-left {
+  0% { transform: translateX(0) rotate(0deg); }
+  100% { transform: translateX(-200px) rotate(-15deg); }
+}
+
+@keyframes ribbon-cut-right {
+  0% { transform: translateX(0) rotate(0deg); }
+  100% { transform: translateX(200px) rotate(15deg); }
+}
+
+/* Ribbon styles */
+.ribbon {
+  @apply bg-gradient-to-r from-ribbon-red to-ribbon-dark border-2 border-ribbon-dark shadow-2xl;
+}
+
+.ribbon.cut-left {
+  animation: ribbon-cut-left 0.6s ease-out forwards;
+}
+
+.ribbon.cut-right {
+  animation: ribbon-cut-right 0.6s ease-out forwards;
+}
+
+/* Utility classes for theme colors */
+.text-gold-primary { color: hsl(var(--gold-primary)); }
+.text-gold-secondary { color: hsl(var(--gold-secondary)); }
+.text-gold-accent { color: hsl(var(--gold-accent)); }
+.bg-ribbon-red { background-color: hsl(var(--ribbon-red)); }
+.bg-ribbon-dark { background-color: hsl(var(--ribbon-dark)); }
+.bg-space-blue { background-color: hsl(var(--space-blue)); }
+.bg-space-purple { background-color: hsl(var(--space-purple)); }
+.text-star-white { color: hsl(var(--star-white)); }
