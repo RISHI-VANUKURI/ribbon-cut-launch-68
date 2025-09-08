@@ -14,10 +14,10 @@
     --ribbon-red: 0 85% 55%;
     --ribbon-dark: 0 75% 45%;
     
-    /* Golden Text Effects */
-    --gold-primary: 45 90% 65%;
-    --gold-secondary: 35 85% 55%;
-    --gold-accent: 55 95% 75%;
+    /* Golden Text Effects - High Contrast */
+    --gold-primary: 45 100% 85%;
+    --gold-secondary: 35 100% 75%;
+    --gold-accent: 55 100% 90%;
     
     /* Space Effects */
     --space-blue: 230 85% 15%;

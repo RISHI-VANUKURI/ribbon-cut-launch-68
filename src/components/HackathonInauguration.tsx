@@ -446,7 +446,7 @@ const HackathonInauguration: React.FC = () => {
       {showWelcomeText && (
         <div className="absolute inset-0 flex items-center justify-center p-4">
           <div className={`text-center transition-all duration-1000 w-full ${showTextSplit ? 'animate-text-split' : ''}`}>
-            <h1 className="text-6xl sm:text-7xl md:text-8xl lg:text-9xl xl:text-[12rem] font-black animate-golden-glow relative overflow-hidden leading-tight">
+            <h1 className="text-6xl sm:text-7xl md:text-8xl lg:text-9xl xl:text-[12rem] font-black animate-golden-glow relative overflow-hidden leading-tight drop-shadow-2xl">
               <div className="relative inline-block w-full">
                 {['W', 'E', 'L', 'C', 'O', 'M', 'E'].map((letter, i) => {
                   const colors = ['text-gold-primary', 'text-gold-accent', 'text-gold-secondary'];
