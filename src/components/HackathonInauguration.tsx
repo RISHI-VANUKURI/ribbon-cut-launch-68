@@ -1,6 +1,4 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
-import goldenBow from '../assets/golden-bow.png';
-import { processImageFile } from '../utils/backgroundRemoval';
 
 interface ScissorPosition {
   x: number;
@@ -15,207 +13,28 @@ const HackathonInauguration: React.FC = () => {
   const [showWebsite, setShowWebsite] = useState(false);
   const [dragProgress, setDragProgress] = useState(0);
   const [showTextSplit, setShowTextSplit] = useState(false);
-  const [processedBowImage, setProcessedBowImage] = useState<string | null>(null);
 
   const containerRef = useRef<HTMLDivElement>(null);
-  const audioRef = useRef<HTMLAudioElement>(null);
-  const victoryAudioRef = useRef<(() => void) | null>(null);
+  const cuttingAudioRef = useRef<HTMLAudioElement>(null);
+  const victoryAudioRef = useRef<HTMLAudioElement>(null);
 
-  // Process the golden bow image to remove background
+  // Initialize audio elements
   useEffect(() => {
-    const processBowImage = async () => {
-      try {
-        const processedImage = await processImageFile(goldenBow);
-        setProcessedBowImage(processedImage);
-      } catch (error) {
-        console.error('Failed to process bow image:', error);
-        // Fallback to original image
-        setProcessedBowImage(goldenBow);
-      }
-    };
+    // Create audio elements for cutting sound and victory music
+    const cuttingAudio = new Audio('/cutting-sound.mp3');
+    const victoryAudio = new Audio('/victory-music.mp3');
     
-    processBowImage();
-  }, []);
-
-  // Create audio context for cutting and victory sounds
-  useEffect(() => {
-    const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
+    cuttingAudio.preload = 'auto';
+    victoryAudio.preload = 'auto';
+    victoryAudio.loop = true;
     
-    // Create a simple cutting sound using Web Audio API
-    const createCuttingSound = () => {
-      const playWhooshSound = () => {
-        const oscillator = audioContext.createOscillator();
-        const gainNode = audioContext.createGain();
-        
-        oscillator.connect(gainNode);
-        gainNode.connect(audioContext.destination);
-        
-        oscillator.frequency.setValueAtTime(200, audioContext.currentTime);
-        oscillator.frequency.exponentialRampToValueAtTime(50, audioContext.currentTime + 0.3);
-        
-        gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
-        gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
-        
-        oscillator.start();
-        oscillator.stop(audioContext.currentTime + 0.3);
-      };
-      
-      return playWhooshSound;
+    cuttingAudioRef.current = cuttingAudio;
+    victoryAudioRef.current = victoryAudio;
+    
+    return () => {
+      cuttingAudio.pause();
+      victoryAudio.pause();
     };
-
-    // Create victory fanfare sound
-    const createVictorySound = () => {
-      let isPlaying = false;
-      let audioNodes: any[] = [];
-      
-      const playVictoryFanfare = () => {
-        if (isPlaying) return;
-        isPlaying = true;
-        
-        const playLoop = () => {
-          // Clear previous nodes
-          audioNodes.forEach(node => {
-            try {
-              node.stop();
-            } catch (e) {}
-          });
-          audioNodes = [];
-          
-          // Extended celebratory music composition
-          const melodyNotes = [
-            { freq: 261.63, time: 0.0, duration: 0.4 }, // C
-            { freq: 293.66, time: 0.3, duration: 0.4 }, // D
-            { freq: 329.63, time: 0.6, duration: 0.4 }, // E
-            { freq: 392.00, time: 0.9, duration: 0.6 }, // G
-            { freq: 523.25, time: 1.3, duration: 0.8 }, // C (high)
-            { freq: 587.33, time: 1.8, duration: 0.4 }, // D (high)
-            { freq: 659.25, time: 2.1, duration: 0.4 }, // E (high)
-            { freq: 783.99, time: 2.4, duration: 1.0 }, // G (high)
-          ];
-
-          // Base harmony
-          const harmonyNotes = [
-            { freq: 130.81, time: 0.0, duration: 2.0 }, // C (bass)
-            { freq: 164.81, time: 1.0, duration: 2.0 }, // E (bass)
-            { freq: 196.00, time: 2.0, duration: 1.5 }, // G (bass)
-          ];
-
-          // Play melody
-          melodyNotes.forEach(note => {
-            const oscillator = audioContext.createOscillator();
-            const gainNode = audioContext.createGain();
-            audioNodes.push(oscillator);
-            
-            oscillator.connect(gainNode);
-            gainNode.connect(audioContext.destination);
-            
-            oscillator.frequency.setValueAtTime(note.freq, audioContext.currentTime + note.time);
-            oscillator.type = 'triangle';
-            
-            gainNode.gain.setValueAtTime(0, audioContext.currentTime + note.time);
-            gainNode.gain.exponentialRampToValueAtTime(0.15, audioContext.currentTime + note.time + 0.05);
-            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + note.time + note.duration);
-            
-            oscillator.start(audioContext.currentTime + note.time);
-            oscillator.stop(audioContext.currentTime + note.time + note.duration);
-          });
-
-          // Play harmony
-          harmonyNotes.forEach(note => {
-            const oscillator = audioContext.createOscillator();
-            const gainNode = audioContext.createGain();
-            audioNodes.push(oscillator);
-            
-            oscillator.connect(gainNode);
-            gainNode.connect(audioContext.destination);
-            
-            oscillator.frequency.setValueAtTime(note.freq, audioContext.currentTime + note.time);
-            oscillator.type = 'sawtooth';
-            
-            gainNode.gain.setValueAtTime(0, audioContext.currentTime + note.time);
-            gainNode.gain.exponentialRampToValueAtTime(0.08, audioContext.currentTime + note.time + 0.1);
-            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + note.time + note.duration);
-            
-            oscillator.start(audioContext.currentTime + note.time);
-            oscillator.stop(audioContext.currentTime + note.time + note.duration);
-          });
-
-          // Add sparkle effects throughout
-          for (let i = 0; i < 8; i++) {
-            setTimeout(() => {
-              const sparkleFreq = 1000 + Math.random() * 800;
-              const oscillator = audioContext.createOscillator();
-              const gainNode = audioContext.createGain();
-              audioNodes.push(oscillator);
-              
-              oscillator.connect(gainNode);
-              gainNode.connect(audioContext.destination);
-              
-              oscillator.frequency.setValueAtTime(sparkleFreq, audioContext.currentTime);
-              oscillator.type = 'sine';
-              
-              gainNode.gain.setValueAtTime(0, audioContext.currentTime);
-              gainNode.gain.exponentialRampToValueAtTime(0.1, audioContext.currentTime + 0.02);
-              gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
-              
-              oscillator.start();
-              oscillator.stop(audioContext.currentTime + 0.3);
-            }, i * 300);
-          }
-          
-          // Loop the music every 4 seconds
-          if (isPlaying) {
-            setTimeout(playLoop, 4000);
-          }
-        };
-        
-        playLoop();
-      };
-      
-      return playVictoryFanfare;
-    };
-
-    // Create tearing sound
-    const createTearingSound = () => {
-      const playTearingSound = () => {
-        // Create fabric tearing effect
-        const noise = audioContext.createBufferSource();
-        const buffer = audioContext.createBuffer(1, audioContext.sampleRate * 0.8, audioContext.sampleRate);
-        const data = buffer.getChannelData(0);
-        
-        // Generate noise for tearing effect
-        for (let i = 0; i < buffer.length; i++) {
-          data[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / buffer.length, 2);
-        }
-        
-        noise.buffer = buffer;
-        
-        const filter = audioContext.createBiquadFilter();
-        const gainNode = audioContext.createGain();
-        
-        noise.connect(filter);
-        filter.connect(gainNode);
-        gainNode.connect(audioContext.destination);
-        
-        filter.type = 'bandpass';
-        filter.frequency.setValueAtTime(800, audioContext.currentTime);
-        filter.frequency.exponentialRampToValueAtTime(200, audioContext.currentTime + 0.8);
-        
-        gainNode.gain.setValueAtTime(0.4, audioContext.currentTime);
-        gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.8);
-        
-        noise.start();
-        noise.stop(audioContext.currentTime + 0.8);
-      };
-      
-      return playTearingSound;
-    };
-
-    const playSound = createCuttingSound();
-    const playVictory = createVictorySound();
-    const playTearing = createTearingSound();
-    (audioRef as any).current = playTearing; // Use tearing sound for cutting
-    victoryAudioRef.current = playVictory;
   }, []);
 
   const handleMouseDown = useCallback((e: React.MouseEvent) => {
@@ -245,15 +64,15 @@ const HackathonInauguration: React.FC = () => {
       setRibbonCut(true);
       setIsDragging(false);
       
-      // Play tearing sound immediately
-      if ((audioRef as any).current) {
-        (audioRef as any).current();
+      // Play cutting sound immediately
+      if (cuttingAudioRef.current) {
+        cuttingAudioRef.current.play().catch(e => console.log('Audio play failed:', e));
       }
       
-      // Play full victory music after a short delay
+      // Play victory music after a short delay
       setTimeout(() => {
         if (victoryAudioRef.current) {
-          victoryAudioRef.current();
+          victoryAudioRef.current.play().catch(e => console.log('Audio play failed:', e));
         }
       }, 500);
       
@@ -307,14 +126,14 @@ const HackathonInauguration: React.FC = () => {
       setRibbonCut(true);
       setIsDragging(false);
       
-      if ((audioRef as any).current) {
-        (audioRef as any).current();
+      if (cuttingAudioRef.current) {
+        cuttingAudioRef.current.play().catch(e => console.log('Audio play failed:', e));
       }
       
       // Play victory music after a short delay
       setTimeout(() => {
         if (victoryAudioRef.current) {
-          victoryAudioRef.current();
+          victoryAudioRef.current.play().catch(e => console.log('Audio play failed:', e));
         }
       }, 300);
       
@@ -396,15 +215,13 @@ const HackathonInauguration: React.FC = () => {
         
         {/* Decorative Bow in Center */}
         <div className="relative flex items-center justify-center w-72 z-10">
-          {processedBowImage && (
-            <img 
-              src={processedBowImage} 
-              alt="Golden Bow" 
-              className={`w-64 h-64 object-contain transition-opacity duration-1000 ${
-                ribbonCut ? 'opacity-0' : 'opacity-100'
-              }`}
-            />
-          )}
+          <img 
+            src="/ribbon.png" 
+            alt="Ribbon" 
+            className={`w-64 h-64 object-contain transition-opacity duration-1000 ${
+              ribbonCut ? 'opacity-0' : 'opacity-100'
+            }`}
+          />
         </div>
         
         {/* Right part of ribbon */}
