@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import goldenBow from '../assets/golden-bow.png';
+import { processImageFile } from '../utils/backgroundRemoval';
 
 interface ScissorPosition {
   x: number;
@@ -14,10 +15,27 @@ const HackathonInauguration: React.FC = () => {
   const [showWebsite, setShowWebsite] = useState(false);
   const [dragProgress, setDragProgress] = useState(0);
   const [showTextSplit, setShowTextSplit] = useState(false);
+  const [processedBowImage, setProcessedBowImage] = useState<string | null>(null);
 
   const containerRef = useRef<HTMLDivElement>(null);
   const audioRef = useRef<HTMLAudioElement>(null);
   const victoryAudioRef = useRef<(() => void) | null>(null);
+
+  // Process the golden bow image to remove background
+  useEffect(() => {
+    const processBowImage = async () => {
+      try {
+        const processedImage = await processImageFile(goldenBow);
+        setProcessedBowImage(processedImage);
+      } catch (error) {
+        console.error('Failed to process bow image:', error);
+        // Fallback to original image
+        setProcessedBowImage(goldenBow);
+      }
+    };
+    
+    processBowImage();
+  }, []);
 
   // Create audio context for cutting and victory sounds
   useEffect(() => {
@@ -377,14 +395,16 @@ const HackathonInauguration: React.FC = () => {
         />
         
         {/* Decorative Bow in Center */}
-        <div className="relative flex items-center justify-center w-24 z-10">
-          <img 
-            src={goldenBow} 
-            alt="Golden Bow" 
-            className={`w-16 h-16 object-contain transition-opacity duration-1000 ${
-              ribbonCut ? 'opacity-0' : 'opacity-100'
-            }`}
-          />
+        <div className="relative flex items-center justify-center w-72 z-10">
+          {processedBowImage && (
+            <img 
+              src={processedBowImage} 
+              alt="Golden Bow" 
+              className={`w-64 h-64 object-contain transition-opacity duration-1000 ${
+                ribbonCut ? 'opacity-0' : 'opacity-100'
+              }`}
+            />
+          )}
         </div>
         
         {/* Right part of ribbon */}
