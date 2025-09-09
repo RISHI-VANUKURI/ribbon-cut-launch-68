@@ -102,14 +102,14 @@
   animation: text-split 0.1s ease-in forwards;
 }
 
+/* Shine effect removed - no more translucent overlay */
 .shine-effect {
-  @apply absolute inset-0 bg-gradient-to-r from-transparent via-gold-accent to-transparent opacity-30;
-  animation: shine-sweep 2s ease-in-out infinite;
+  display: none;
 }
 
+/* Particle effect removed - no more translucent particles */
 .particle-effect {
-  @apply absolute w-2 h-2 bg-gold-accent rounded-full opacity-70;
-  animation: particle-burst 2s ease-out infinite;
+  display: none;
 }
 
 /* Keyframes for animations */
