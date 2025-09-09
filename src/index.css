@@ -14,21 +14,21 @@
     --ribbon-red: 0 85% 55%;
     --ribbon-dark: 0 75% 45%;
     
-    /* Golden Text Effects - High Contrast */
-    --gold-primary: 45 100% 85%;
-    --gold-secondary: 35 100% 75%;
-    --gold-accent: 55 100% 90%;
+    /* HACK VIBE Logo Colors - Blue/Purple/Metallic Theme */
+    --gold-primary: 200 100% 80%;     /* Bright cyan blue */
+    --gold-secondary: 280 90% 75%;    /* Purple/magenta */
+    --gold-accent: 220 100% 85%;      /* Electric blue */
     
     /* Space Effects */
-    --space-blue: 230 85% 15%;
-    --space-purple: 270 75% 25%;
-    --star-white: 0 0% 95%;
+    --space-blue: 220 85% 25%;        /* Deep blue */
+    --space-purple: 280 75% 35%;      /* Rich purple */
+    --star-white: 210 15% 85%;        /* Metallic silver */
     
     /* Glow Effects */
-    --glow-primary: 45 90% 65%;
-    --glow-secondary: 0 85% 55%;
+    --glow-primary: 200 90% 70%;      /* Cyan glow */
+    --glow-secondary: 280 85% 65%;    /* Purple glow */
     
-    --primary: 45 90% 65%;
+    --primary: 200 90% 70%;           /* Cyan primary */
     --primary-foreground: 220 25% 5%;
     
     --secondary: 0 85% 55%;
