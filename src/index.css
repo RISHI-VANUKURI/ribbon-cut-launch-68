@@ -196,7 +196,10 @@
 
 /* Ribbon styles */
 .ribbon {
-  @apply bg-gradient-to-r from-ribbon-red to-ribbon-dark border-2 border-ribbon-dark shadow-2xl;
+  /* Use design tokens directly for gradient and border color to avoid missing Tailwind classes */
+  @apply border-2 shadow-2xl;
+  background-image: linear-gradient(to right, hsl(var(--ribbon-red)), hsl(var(--ribbon-dark)));
+  border-color: hsl(var(--ribbon-dark));
 }
 
 .ribbon.cut-left {
